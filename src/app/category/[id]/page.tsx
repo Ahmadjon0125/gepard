@@ -4,10 +4,27 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
 import api from "@/lib/api";
+import { useState } from "react";
+import ProductModal from "@/components/ProductModal";
+
+interface Product {
+  id: number;
+  nameRu: string;
+  price: number;
+  isDollar: boolean;
+  image: string;
+  code: string;
+  inGroup: number;
+  balance: number;
+}
+
+
 
 const fetchProductById = async (id: number) => {
   const { data } = await api.post(`/product/find-many`, { where: { categoryId: id } });
+  console.log(data)
   return data;
+
 };
 
 const fetchCategoryTitle = async (productId: number) => {
@@ -15,9 +32,12 @@ const fetchCategoryTitle = async (productId: number) => {
   return data.data[0]?.nameUz
 };
 
+
 const ProductDetail = () => {
   const params = useParams();
   const productId = Number(params.id);
+  
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const { data: title, isLoading: isTitleLoading } = useQuery({
     queryKey: ["categoryTitle", productId],
@@ -33,6 +53,13 @@ const ProductDetail = () => {
 
   if (isLoading || isTitleLoading) return <div>Yuklanmoqda...</div>;
   if (error) return <div>Xatolik yuz berdi!</div>;
+
+
+
+  const handleOpenModal = (product: Product) => {
+    setSelectedProduct(product);
+  };
+  
 
   return (
     <div className="max-w-3xl mx-auto p-3">
@@ -56,15 +83,21 @@ const ProductDetail = () => {
                   <span className="font-bold text-[18px] mr-6 ">
                     {product.isDollar ? `$${product.price}` : `${product.price} so‘m`}
                   </span>
-                  <span className="font-medium text-[16px]">{`${(product.price * 12954.12).toFixed(2) } so'm`}</span>
+                  <span className="font-medium text-[16px]">{`${(product.price * 12954.12).toFixed(2)} so'm`}</span>
                 </p>
               </div>
-              <button className=" ml-3 p-3 rounded-full border hover:bg-gray-100 transition">
+              <button onClick={() => handleOpenModal(product)} className=" ml-3 p-3 rounded-full border hover:bg-gray-100 transition">
                 <ShoppingCart size={20} />
               </button>
             </li>
           ))}
       </ul>
+      <ProductModal
+        product={selectedProduct}
+        isOpen={!!selectedProduct}
+        title={title}
+        onClose={() => setSelectedProduct(null)}
+      />
 
       <button className="fixed bottom-4 right-4 p-4 bg-white shadow-lg rounded-full border hover:bg-gray-100 transition">
         <ShoppingCart size={28} />
