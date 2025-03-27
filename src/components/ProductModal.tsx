@@ -67,7 +67,7 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
     if (!product) return null;
 
     return (
-        <Modal title={title} open={isOpen} onCancel={onClose} footer={null}  bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} className="!w-full !max-w-[400px]" getContainer={false}>
+        <Modal title={title} open={isOpen} onCancel={onClose} footer={null}  bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} className="max-w-[500px]" getContainer={false}>
             <img
                 src={`https://magnus-backend.uz/${product.image}`}
                 alt={product.nameRu}

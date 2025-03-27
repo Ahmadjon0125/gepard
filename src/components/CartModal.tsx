@@ -9,7 +9,7 @@ import { useState } from "react";
 const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
     const [paymentType, setPaymentType] = useState("Naqd pul");
   return (
-    <Modal title="Savatcha" open={isOpen} onCancel={onClose} bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} className="!w-full !max-w-[400px]" footer={null}>
+    <Modal title="Savatcha" open={isOpen} onCancel={onClose} bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} className=" max-w-[500px]" footer={null}>
       {cartStore.cart.length === 0 ? (
         <p>Savatcha bo‘sh</p>
       ) : (
@@ -49,7 +49,7 @@ const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () 
       <h3 className="text-lg font-bold mt-4">
         Jami narx: {cartStore.totalPrice} $
         <p>
-        {(cartStore.totalPrice * 12954.12).toLocaleString()} so‘m
+        {((cartStore.totalPrice * 12954.12).toFixed(2)).toLocaleString()} so‘m
         </p>
         <p className="text-gray-600">Toshkent shahar ichida yetkazib berish: 25000 so‘m</p>
       </h3>
