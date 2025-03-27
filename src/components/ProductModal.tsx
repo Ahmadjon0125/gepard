@@ -1,7 +1,7 @@
 "use client";
 
 import { Modal, Button, Spin } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { cartStore } from "@/store/cart";
 
@@ -26,6 +26,23 @@ interface ProductModalProps {
 }
 
 const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, title, onClose }) => {
+
+    const [modalWidth, setModalWidth] = useState("600px");
+  
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setModalWidth("100vw"); // Telefon ekrani uchun to‘liq kenglik
+        } else {
+          setModalWidth("600px"); // Kompyuter uchun standart o‘lcham
+        }
+      };
+  
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const [karobka, setKarobka] = useState(0);
     const [dona, setDona] = useState(1);
 
@@ -67,7 +84,7 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
     if (!product) return null;
 
     return (
-        <Modal title={title} open={isOpen} onCancel={onClose} footer={null}  bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} className="max-w-[500px]" getContainer={false}>
+        <Modal title={title} open={isOpen} onCancel={onClose} footer={null}  bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} width={modalWidth} className="max-w-[500px]" getContainer={false}>
             <img
                 src={`https://magnus-backend.uz/${product.image}`}
                 alt={product.nameRu}

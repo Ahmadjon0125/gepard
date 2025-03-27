@@ -4,12 +4,32 @@
 import { Modal, Button, Select, Input } from "antd";
 import { observer } from "mobx-react-lite";
 import { cartStore } from "@/store/cart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+
+   
 const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+
+    const [modalWidth, setModalWidth] = useState("600px");
+  
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setModalWidth("100vw"); // Telefon ekrani uchun to‘liq kenglik
+        } else {
+          setModalWidth("600px"); // Kompyuter uchun standart o‘lcham
+        }
+      };
+  
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+
     const [paymentType, setPaymentType] = useState("Naqd pul");
   return (
-    <Modal title="Savatcha" open={isOpen} onCancel={onClose} bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} className=" max-w-[500px]" footer={null}>
+    <Modal title="Savatcha" open={isOpen} onCancel={onClose} bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} width={modalWidth} className=" max-w-[500px]" footer={null}>
       {cartStore.cart.length === 0 ? (
         <p>Savatcha bo‘sh</p>
       ) : (
