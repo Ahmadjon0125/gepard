@@ -3,6 +3,8 @@
 import { Modal, Button, Spin } from "antd";
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
+import { cartStore } from "@/store/cart";
+
 
 interface Product {
     id: number;
@@ -13,6 +15,7 @@ interface Product {
     code: string;
     inGroup: number;
     balance: number;
+    
 }
 
 interface ProductModalProps {
@@ -35,7 +38,6 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
             </div>
         );
     }
-
 
     const increaseKarobka = () => {
         if ((karobka + 1) * product.inGroup + dona <= product.balance) {
@@ -111,7 +113,16 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
 
                 <div className="flex justify-end mt-4">
                     <Button onClick={onClose} className="mr-3">Bekor qilish</Button>
-                    <Button type="primary" >+ Qo‘shish</Button>
+                    <Button onClick={()=> cartStore.addToCart(
+                        {
+                            id: product.id.toString(),
+                            name: product.nameRu,
+                            price: product.price,
+                            quantity: totalQuantity,
+                            image: product.image,
+                            code: product.code,
+                            isDollar: product.isDollar
+})} type="primary" >+ Qo‘shish</Button>
                 </div>
             </div>
         </Modal>
