@@ -9,7 +9,7 @@ import { useState } from "react";
 const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
     const [paymentType, setPaymentType] = useState("Naqd pul");
   return (
-    <Modal title="Savatcha" open={isOpen} onCancel={onClose} footer={null}>
+    <Modal title="Savatcha" open={isOpen} onCancel={onClose} bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} className="!w-full !max-w-[400px]" footer={null}>
       {cartStore.cart.length === 0 ? (
         <p>Savatcha bo‘sh</p>
       ) : (
