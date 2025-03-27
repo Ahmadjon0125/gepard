@@ -105,7 +105,7 @@ const ProductDetail = () => {
         onClick={() => setIsCartOpen(true)}
         className="fixed bottom-4 right-4 p-4 bg-white shadow-lg rounded-full border hover:bg-gray-100 transition"
       >
-        <ShoppingCart size={28} />
+        <ShoppingCart size={35} />
       </button>
     </div>
   );
