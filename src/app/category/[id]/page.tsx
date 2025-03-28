@@ -21,11 +21,13 @@ interface Product {
 
 const fetchProductById = async (id: number) => {
   const { data } = await api.post(`/product/find-many`, { where: { categoryId: id } });
+  if(data.data.code === "WE-0165") return null
   return data;
 };
 
 const fetchCategoryTitle = async (productId: number) => {
   const { data } = await api.post("/category/find-many", { where: { id: productId } });
+  if(data.data.code === "WE-0165") return null
   return data.data[0]?.nameUz;
 };
 
@@ -51,20 +53,24 @@ const ProductDetail = () => {
   if (isLoading || isTitleLoading) return <div>Yuklanmoqda...</div>;
   if (error) return <div>Xatolik yuz berdi!</div>;
 
+  let arr = data.data?.filter((product: any) => product.image)
+  let arr2 = arr.filter((product: any) => product.code !== "WE-0165")
+  console.log(arr2);
+  
+  
   return (
     <div className="max-w-3xl mx-auto p-3">
       <h1 className="text-3xl text-center font-bold my-8">{title}</h1>
       <ul className="space-y-4">
-        {data.data
-          ?.filter((product: any) => product.image)
-          .map((product: any) => (
+        { 
+          arr2.map((product: any) => (
             <li key={product.id} className="flex items-center">
               <img
                 src={`https://magnus-backend.uz/${product.image}`}
                 alt={product.nameRu}
                 className="w-[100px] h-[80px] object-cover rounded"
               />
-              <div className="flex-1 p-2">
+              <div className="flex-1 p-1">
                 <span className="flex">
                   <p className="text-[18px] font-bold mr-1">{product.nameRu}
                   <span className="text-gray-600 ml-2">
