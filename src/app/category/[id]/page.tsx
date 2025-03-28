@@ -66,9 +66,11 @@ const ProductDetail = () => {
               />
               <div className="flex-1 p-2">
                 <span className="flex">
-                  <p className="text-[18px] font-bold mr-4">{product.nameRu}</p>
-                  <p className="text-gray-600">
-                    <span className="text-gray font-bold mr-2">kod</span> #{product.code}
+                  <p className="text-[18px] font-bold mr-1">{product.nameRu}
+                  <span className="text-gray-600 ml-2">
+                    <span className="text-gray font-bold ">kod</span> #{product.code}
+                  </span>
+
                   </p>
                 </span>
                 <p className="text-sm mt-1">
