@@ -20,7 +20,7 @@ const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () 
           setModalWidth("500px"); 
         }
       };
-  
+    //   bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }}
       handleResize();
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
@@ -29,7 +29,7 @@ const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
     const [paymentType, setPaymentType] = useState("Naqd pul");
   return (
-    <Modal title="Savatcha" open={isOpen} onCancel={onClose} bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} width={modalWidth} className=" max-w-[500px]" footer={null}>
+    <Modal title="Savatcha" open={isOpen} onCancel={onClose}  width={modalWidth} className=" max-w-[500px]" footer={null}>
       {cartStore.cart.length === 0 ? (
         <p>Savatcha bo‘sh</p>
       ) : (
