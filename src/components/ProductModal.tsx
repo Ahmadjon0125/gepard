@@ -32,9 +32,9 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
     useEffect(() => {
       const handleResize = () => {
         if (window.innerWidth < 768) {
-          setModalWidth("100vw"); // Telefon ekrani uchun to‘liq kenglik
+          setModalWidth("100vw"); 
         } else {
-          setModalWidth("600px"); // Kompyuter uchun standart o‘lcham
+          setModalWidth("500px"); 
         }
       };
   
