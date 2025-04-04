@@ -8,7 +8,6 @@ interface CartItem {
   image: string;
   code: string;
   isDollar: boolean
-
 }
 
 class CartStore {

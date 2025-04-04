@@ -3,10 +3,10 @@
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
-import api from "@/lib/api";
 import { useState } from "react";
 import ProductModal from "@/components/ProductModal";
 import CartModal from "@/components/CartModal"; 
+import { fetchProductById, fetchCategoryTitle } from "@/lib/api";
 
 interface Product {
   id: number;
@@ -18,18 +18,6 @@ interface Product {
   inGroup: number;
   balance: number;
 }
-
-const fetchProductById = async (id: number) => {
-  const { data } = await api.post(`/product/find-many`, { where: { categoryId: id } });
-  if(data.data.code === "WE-0165") return null
-  return data;
-};
-
-const fetchCategoryTitle = async (productId: number) => {
-  const { data } = await api.post("/category/find-many", { where: { id: productId } });
-  if(data.data.code === "WE-0165") return null
-  return data.data[0]?.nameUz;
-};
 
 const ProductDetail = () => {
   const params = useParams();
@@ -76,7 +64,6 @@ const ProductDetail = () => {
                   <span className="text-gray-600 ml-2">
                     <span className="text-gray font-bold ">kod</span> #{product.code}
                   </span>
-
                   </p>
                 </span>
                 <p className="text-sm mt-1">

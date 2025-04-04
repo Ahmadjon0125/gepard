@@ -7,29 +7,37 @@ import { cartStore } from "@/store/cart";
 import { useState, useEffect } from "react";
 
 
-   
+
 const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
 
-    const [modalWidth, setModalWidth] = useState("600px");
-  
-    useEffect(() => {
-      const handleResize = () => {
-        if (window.innerWidth < 768) {
-          setModalWidth("100vw"); 
-        } else {
-          setModalWidth("500px"); 
-        }
-      };
-      
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
+  const [modalWidth, setModalWidth] = useState("600px");
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setModalWidth("100vw");
+      } else {
+        setModalWidth("500px");
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
 
-    const [paymentType, setPaymentType] = useState("Naqd pul");
+  const [paymentType, setPaymentType] = useState("Naqd pul");
   return (
-    <Modal title="Savatcha" open={isOpen} onCancel={onClose} bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }} width={modalWidth} className=" max-w-[500px]" footer={null}>
+    <Modal
+      title="Savatcha"
+      open={isOpen}
+      onCancel={onClose}
+      styles={{
+        body: { maxHeight: "90vh", overflowY: "auto" }
+      }} width={modalWidth}
+      className=" max-w-[500px]"
+      footer={null}>
       {cartStore.cart.length === 0 ? (
         <p>Savatcha bo‘sh</p>
       ) : (
@@ -37,19 +45,19 @@ const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () 
           <div key={item.id} className="flex justify-between items-center p-2 border-b">
             <img src={`https://magnus-backend.uz/${item.image}`} alt={item.name} className="w-24 h-24 object-cover rounded" />
             <div className="flex-1 p-2">
-                  <p className="text-[18px] font-bold mr-4">{item.name}</p>
-                  <p className="text-gray-600">
-                    <span className="text-gray font-bold mr-2">kod</span> #{item.code}
-                  </p>
-                <p className="text-sm mt-1">
-                  <span className="font-bold text-[18px] mr-6">
-                    {item.isDollar ? `$${item.price}` : `${item.price} so‘m`}
-                  </span>
-                  <span className="font-medium text-[16px]">
-                    {`${(item.price * 12954.12).toFixed(2)} so'm`}
-                  </span>
-                </p>
-              </div>
+              <p className="text-[18px] font-bold mr-4">{item.name}</p>
+              <p className="text-gray-600">
+                <span className="text-gray font-bold mr-2">kod</span> #{item.code}
+              </p>
+              <p className="text-sm mt-1">
+                <span className="font-bold text-[18px] mr-6">
+                  {item.isDollar ? `$${item.price}` : `${item.price} so‘m`}
+                </span>
+                <span className="font-medium text-[16px]">
+                  {`${(item.price * 12954.12).toFixed(2)} so'm`}
+                </span>
+              </p>
+            </div>
             <Button shape="circle" onClick={() => cartStore.removeFromCart(item.id)}>-</Button>
           </div>
         ))
@@ -69,7 +77,7 @@ const CartModal = observer(({ isOpen, onClose }: { isOpen: boolean; onClose: () 
       <h3 className="text-lg font-bold mt-4">
         Jami narx: {cartStore.totalPrice} $
         <p>
-        {((cartStore.totalPrice * 12954.12).toFixed(2)).toLocaleString()} so‘m
+          {((cartStore.totalPrice * 12954.12).toFixed(2)).toLocaleString()} so‘m
         </p>
         <p className="text-gray-600">Toshkent shahar ichida yetkazib berish: 25000 so‘m</p>
       </h3>
