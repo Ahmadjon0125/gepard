@@ -15,7 +15,7 @@ interface Product {
     code: string;
     inGroup: number;
     balance: number;
-    
+
 }
 
 interface ProductModalProps {
@@ -28,19 +28,19 @@ interface ProductModalProps {
 const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, title, onClose }) => {
 
     const [modalWidth, setModalWidth] = useState("600px");
-  
+
     useEffect(() => {
-      const handleResize = () => {
-        if (window.innerWidth < 768) {
-          setModalWidth("100vw"); 
-        } else {
-          setModalWidth("500px"); 
-        }
-      };
-  
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setModalWidth("100vw");
+            } else {
+                setModalWidth("500px");
+            }
+        };
+
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const [karobka, setKarobka] = useState(0);
@@ -57,34 +57,47 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
     }
 
     const increaseKarobka = () => {
-        if ((karobka + 1) * product.inGroup + dona <= product.balance) {
-            setKarobka(karobka + 1);
+        const newKarobka = karobka + 1;
+        const newDona = newKarobka * product.inGroup;
+
+        if (newDona <= product.balance) {
+            setKarobka(newKarobka);
+            setDona(newDona);
         }
     };
 
     const decreaseKarobka = () => {
-        if (karobka > 0) setKarobka(karobka - 1);
+        if (karobka > 0) {
+            const newKarobka = karobka - 1;
+            const newDona = newKarobka * product.inGroup;
+            setKarobka(newKarobka);
+            setDona(newDona);
+        }
     };
 
     const increaseDona = () => {
-        if (karobka * product.inGroup + dona < product.balance) {
+        if (dona + 1 <= product.balance) {
             setDona(dona + 1);
+            setKarobka(Math.floor((dona + 1) / product.inGroup));
         }
     };
 
     const decreaseDona = () => {
-        if (dona > 1) setDona(dona - 1);
+        if (dona > 1) {
+            setDona(dona - 1);
+            setKarobka(Math.floor((dona - 1) / product.inGroup));
+        }
     };
 
     const totalQuantity = karobka * product.inGroup + dona;
     const totalPrice = totalQuantity * product.price;
 
-   
+
 
     if (!product) return null;
 
     return (
-        <Modal title={title} open={isOpen} onCancel={onClose} footer={null} styles={{ body: { maxHeight: "90vh", overflowY: "auto" } }}  width={modalWidth} className="max-w-[500px]" getContainer={false}>
+        <Modal title={title} open={isOpen} onCancel={onClose} footer={null} styles={{ body: { maxHeight: "90vh", overflowY: "auto" } }} width={modalWidth} className="max-w-[500px]" getContainer={false}>
             <img
                 src={`https://magnus-backend.uz/${product.image}`}
                 alt={product.nameRu}
@@ -130,7 +143,7 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
 
                 <div className="flex justify-end mt-4">
                     <Button onClick={onClose} className="mr-3">Bekor qilish</Button>
-                    <Button onClick={()=> cartStore.addToCart(
+                    <Button onClick={() => cartStore.addToCart(
                         {
                             id: product.id.toString(),
                             name: product.nameRu,
@@ -139,7 +152,7 @@ const ProductModal: React.FC<ProductModalProps> = observer(({ product, isOpen, t
                             image: product.image,
                             code: product.code,
                             isDollar: product.isDollar
-})} type="primary" >+ Qo‘shish</Button>
+                        })} type="primary" >+ Qo‘shish</Button>
                 </div>
             </div>
         </Modal>
