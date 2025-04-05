@@ -59,7 +59,7 @@ export default function HomePage() {
  filteredProducts?.map(pro => console.log(pro.image))
 
   return (
-    <div className="p-5 max-w-fit  mx-auto">
+    <div className="p-5 max-w-[800px]  mx-auto">
       <SearchBar onSearch={setSearchText} />
 
       {searchText ? (
@@ -74,7 +74,7 @@ export default function HomePage() {
               <img
                 src={`https://magnus-backend.uz/${product.image}`}
                 alt={product.nameRu}
-                className="w-[100px] h-[80px] object-cover rounded"
+                    className="w-[100px] h-[80px] object-cover rounded"
               />
               <div className="flex-1 p-1">
                 <span className="flex">
@@ -122,19 +122,18 @@ export default function HomePage() {
         <>
         <div className="p-5 max-w-fit text-center m-auto">
           <h1 className="text-2xl font-bold mb-4 ">Kategoriyalar</h1>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 w-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 w-auto items-stretch">
             {categoriesData?.data?.map((category) => (
               <Link key={category.id} href={`/category/${category.id}`}>
-                <div className="bg-white shadow-md rounded-lg p-3 flex flex-col items-center cursor-pointer hover:shadow-lg transition">
+                <div className="bg-white shadow-md rounded-lg p-3 h-full flex flex-col items-center cursor-pointer hover:shadow-lg transition">
                   <Image
                     src={`/${category.id}.png`}
                     alt={category.nameUz}
                     width={200}
                     height={100}
-                    objectFit="cover"
-                    className="h-[100px] w-[100%] rounded-lg"
+                    className="h-[80px] w-[full] object-cover rounded-lg"
                   />
-                  <p>{category.nameUz}</p>
+                  <p className=" font-bold">{category.nameUz}</p>
                 </div>
               </Link>
             ))}
